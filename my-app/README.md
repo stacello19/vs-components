@@ -72,18 +72,20 @@
 
 - _Optional_
 
-### Style: _Styling for the Pie graph_
+### Style
 
 - _Optional_
+- _Styling for the Pie graph_
 - style is object and it contains following: _stroke_, _strokeWidth_, _strokeColor_, _opacity_
 - style.stroke: boolean (Default value is `false`. This enables the style to be on and off)
 - style.strokeWidth: string (Default value is `'none'`. For ex: `'1px'`)
 - style.strokeColor: string (Default value is `'none'`. For ex: `'black'`)
 - style.opacity: number (Default value is `null`. For ex: `0.8`)
 
-### Text: _Text and Text Styling_
+### Text
 
 - _Optional_
+- _Text and Text Styling_
 - text is object and it contains following: _label_, _textSize_, _textAnchor_, _textFamily_, _textWeight_
 - text.show: boolean (Default value is `false`. This enables the text to be on and off)
 - text.textSize: number (Default value is `12`)
@@ -101,9 +103,10 @@
 - arc.cornerRadius: number (Default value is `0`)  
   ![](https://user-images.githubusercontent.com/45322680/150209072-16de16bd-a78f-44e5-96c2-2e8ad89dbc06.png)
 
-### Tooltip: _Tooltip and Tooltip Styling_
+### Tooltip
 
 - _Optional_
+- _Tooltip and Tooltip Styling_
 - tooltip is object and it contains following: _show_, _background_, _border_, _borderRadius_, _padding_, _color_, _fontFamily_, _fontWeight_, _text_
 - tooltip.show: boolean (Default value is `false`. This enables the tooltip to be on and off)
 - tooltip.background: string (Default value is `'#FFF'`)
@@ -117,9 +120,10 @@
   You can show data by wrapping the data key with this syntax **(% %)** around it.  
   ![](https://user-images.githubusercontent.com/45322680/150210232-074a2454-d91c-4945-82f3-1c3e9a449d4f.png)
 
-### HoverStyle: _Styling when the mouse hovers_
+### HoverStyle
 
 - _Optional_
+- _Styling when the mouse hovers_
 - hoverStyle is object and it contains following: _style_, _opacity_, _strokeWidth_, _strokeColor_, _cursorPointer_
 - hoverStyle.style: boolean (Default value is `false`. This enables the hoverStyle to be on and off)
 - hoverStyle.opacity: number or string (Default value is `'none'`. For ex: `opacity: 0.8`)
