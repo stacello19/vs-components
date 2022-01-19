@@ -1,70 +1,128 @@
-# Getting Started with Create React App
+# PIE
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+## Props
 
-In the project directory, you can run:
+- [width: number](#width)
+- [height: number](#height)
+- [key: string](#key)
+- [value: string](#value)
+- [colorPalette: array](#colorpalette)
+- [colorType: string](#colortype)
+- [margin: number](#margin)
+- [style: object](#style)
+- [text: object](#text)
+- [arc: object](#arc)
+- [tooltip: object](#tooltip)
+- [hoverStyle: object](#hoverstyle)
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Width
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Required**
 
-### `npm test`
+### Height
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Required**
 
-### `npm run build`
+## Key
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Required**
+- Object key name from data to display in Pie graph
+- For ex: `data=[{type: 'b', amount: 300 }]`  
+  We define the key as **_type_** as you can see in the image.  
+  ![](https://user-images.githubusercontent.com/45322680/150199504-84730b22-0df4-4ccb-b99e-b73cf83bb2e0.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Value
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Required**
+- Object key name from data to display in Pie graph
+- For ex: `data=[{type: 'b', amount: 300 }]`  
+  We define the value as **_amount_** as you can see in the image.  
+  ![](https://user-images.githubusercontent.com/45322680/150199504-84730b22-0df4-4ccb-b99e-b73cf83bb2e0.png)
 
-### `npm run eject`
+## ColorPalette
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- _Optional_
+- Array of color to fill the pie graph. You can personally pick the colors to show in the graph
+- For ex: `['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6']`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## ColorType
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- _Optional_
+- Array of color to fill the pie graph
+- It has default value as **_Color-1_**
+- List of ColorType  
+  | ColorType | ColorSet |
+  | ------------- |:-------------:|
+  | Color-1 | ![](https://user-images.githubusercontent.com/45322680/150201979-8bd47bd5-59bf-4c6e-b5a0-cedca53c41c5.png) |
+  | Color-2 | ![](https://user-images.githubusercontent.com/45322680/150202142-b5182651-e592-4714-986b-21df45ae975d.png) |
+  | Color-3 | ![](https://user-images.githubusercontent.com/45322680/150202596-8ff79f8b-82a8-4032-a070-9f728ad90453.png) |
+  | Color-4 | ![](https://user-images.githubusercontent.com/45322680/150203647-0d02b132-58dc-4092-8ca6-ea76276aafda.png) |
+  | Color-5 | ![](https://user-images.githubusercontent.com/45322680/150203726-0c591877-0b2c-442f-b751-2949ee70caa5.png) |
+  | Color-6 | ![](https://user-images.githubusercontent.com/45322680/150203829-d082dd37-a256-4ff0-a798-14361b0c50e7.png) |
+  | Color-7 | ![](https://user-images.githubusercontent.com/45322680/150203884-35ff24f4-5378-4ee0-b498-0cb871ba0ab6.png) |
+  | Color-8 | ![](https://user-images.githubusercontent.com/45322680/150204009-ce79040d-2894-4da3-bce9-be2faeda1b79.png) |
+  | Color-9 | ![](https://user-images.githubusercontent.com/45322680/150204067-63986a76-d034-4838-a5d1-91659d83b396.png) |
+  | Color-10 | ![](https://user-images.githubusercontent.com/45322680/150204117-31a221e5-afc2-4e63-87a7-7e587b91b462.png) |
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Margin
 
-## Learn More
+- _Optional_
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Style: _Styling for the Pie graph_
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- _Optional_
+- style is object and it contains following: _stroke_, _strokeWidth_, _strokeColor_, _opacity_
+- style.stroke: boolean (Default value is `false`. This enables the style to be on and off)
+- style.strokeWidth: string (Default value is `'none'`. For ex: `'1px'`)
+- style.strokeColor: string (Default value is `'none'`. For ex: `'black'`)
+- style.opacity: number (Default value is `null`. For ex: `0.8`)
 
-### Code Splitting
+### Text: _Text and Text Styling_
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- _Optional_
+- text is object and it contains following: _label_, _textSize_, _textAnchor_, _textFamily_, _textWeight_
+- text.show: boolean (Default value is `false`. This enables the text to be on and off)
+- text.textSize: number (Default value is `12`)
+- text.textAnchor: string (Default value is `'middle'`. Options: `'start', 'middle', 'end'`)
+- text.textFamily: string (Default value is `'serif'`)
+- text.textWeight: number (Default value is `400`)  
+  ![](https://user-images.githubusercontent.com/45322680/150211897-6aef75bf-bc14-408f-9838-9cf590488ebd.png)
 
-### Analyzing the Bundle Size
+### Arc
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- _Optional_
+- arc is object and it contains following: _padAngle_, _cornerRadius_
+- arc.padAngle: number (Default value is `0`. Range is between `0.02 <= padAngle <= 0.1`.)  
+  ![](https://user-images.githubusercontent.com/45322680/150208756-8480f26d-2076-4760-b22e-bda70721588d.png)
+- arc.cornerRadius: number (Default value is `0`)  
+  ![](https://user-images.githubusercontent.com/45322680/150209072-16de16bd-a78f-44e5-96c2-2e8ad89dbc06.png)
 
-### Making a Progressive Web App
+### Tooltip: _Tooltip and Tooltip Styling_
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- _Optional_
+- tooltip is object and it contains following: _show_, _background_, _border_, _borderRadius_, _padding_, _color_, _fontFamily_, _fontWeight_, _text_
+- tooltip.show: boolean (Default value is `false`. This enables the tooltip to be on and off)
+- tooltip.background: string (Default value is `'#FFF'`)
+- tooltip.border: string (Default value is `'none'`)
+- tooltip.borderRadius: string (Default value is `'0px'`)
+- tooltip.padding: string (Default value is `'0px'`)
+- tooltip.color: string (Default value is `'black'`)
+- tooltip.fontFamily: string (Default value is `'serif'`)
+- tooltip.fontWeight: number (Default value is `400`)
+- tooltip.text: string (For ex: `'<div>Hello.</div><div>(%key%): (%value%)</div>'`)  
+  You can show data by wrapping the data key with this syntax **(% %)** around it.  
+  ![](https://user-images.githubusercontent.com/45322680/150210232-074a2454-d91c-4945-82f3-1c3e9a449d4f.png)
 
-### Advanced Configuration
+### HoverStyle: _Styling when the mouse hovers_
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- _Optional_
+- hoverStyle is object and it contains following: _style_, _opacity_, _strokeWidth_, _strokeColor_, _cursorPointer_
+- hoverStyle.style: boolean (Default value is `false`. This enables the hoverStyle to be on and off)
+- hoverStyle.opacity: number or string (Default value is `'none'`. For ex: `opacity: 0.8`)
+- hoverStyle.strokeWidth: string (Default value is `'none'`. For ex: `'1px'`)
+- hoverStyle.strokeColor: string (Default value is `'none'`. For ex: `'black'`)
+- hoverStyle.cursorPointer: string or null (Default value is `null`. For ex: `'pointer'`)
