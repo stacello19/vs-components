@@ -6,7 +6,7 @@
 
 - [width: number](#width)
 - [height: number](#height)
-- [key: string](#key)
+- [dataKey: string](#datakey)
 - [value: string](#value)
 - [colorPalette: array](#colorpalette)
 - [colorType: string](#colortype)
@@ -27,7 +27,7 @@
 
 - **Required**
 
-## Key
+## DataKey
 
 - **Required**
 - Object key name from data to display in Pie graph

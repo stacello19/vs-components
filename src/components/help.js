@@ -30,3 +30,11 @@ export const createColorPalette = (type, len) => {
       return [];
   }
 }
+
+export const parseTooltipText = (text, dataObj) => {  
+  const newText = text.replace(/%.*?%/g, (match) => {
+    const str = match.replace(/[^()a-zA-Z0-9_-]+/g, '');
+    return dataObj[str];
+  });
+  return newText
+};

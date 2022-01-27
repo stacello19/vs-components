@@ -1,38 +1,76 @@
 .App {
-  text-align: center;
+	display: grid;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.row-wrapper {
+	display: flex;
+	margin: 1rem;
+	gap: 3rem;
+	text-align: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.tooltip2 {
+	/* border: 1px solid greenyellow; */
+	background: skyblue;
+	border-radius: 20px;
+	padding: 1.5rem;
+	color: white;
+	font-family: serif;
+	font-weight: 700;
+	font-size: 16px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.arc {
+	stroke-width: 3;
+	stroke: none;
+	opacity: 1;
 }
 
-.App-link {
-  color: #61dafb;
+.arc-text {
+	font-size: 20px;
+	/* font-family: "Times New Roman", Times, serif; */
+	font-weight: 500;
+	fill: black;
+}
+.arc:hover {
+	cursor: pointer;
+	stroke-width: 3;
+	stroke: white;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.text-line {
+	stroke: blue;
+	stroke-width: 2;
+	opacity: 0.5;
+}
+
+.int-arc {
+	stroke-width: 5;
+	stroke: white;
+	opacity: 1;
+}
+
+text.label {
+	font-size: 18px;
+	fill: teal;
+	font-weight: 500;
+}
+
+text.y-label {
+	font-size: 18px;
+	fill: teal;
+	font-weight: 500;
+}
+
+text.x-label {
+	font-size: 18px;
+	fill: teal;
+	font-weight: 500;
+}
+.grid path {
+	stroke-width: none !important;
+}
+.tick line {
+	stroke: red;
+	stroke-opacity: 0.3;
 }
