@@ -1,8 +1,30 @@
 import React, { useRef, useEffect } from 'react';
-import { createTooltip } from '../help';
+import { createTooltip, createColorInterpolate, createDomain, parseTooltipText } from '../help';
 import * as d3 from 'd3';
 
-const Heatmap = ({ width=400, height=400, margin={top: 30, right: 30, bottom: 30, left: 30}}) => {
+const data = [
+  {group: 'A', variable: 'v1', value: 70},
+  {group: 'A', variable: 'v2', value: 66},
+  {group: 'A', variable: 'v3', value: 10},
+  {group: 'B', variable: 'v1', value: 30},
+  {group: 'B', variable: 'v2', value: 90},
+  {group: 'B', variable: 'v3', value: 100},
+  {group: 'C', variable: 'v1', value: 26},
+  {group: 'C', variable: 'v2', value: 48},
+  {group: 'C', variable: 'v3', value: 88},
+]
+
+const Heatmap = ({ 
+  tooltip={show: true, text: '<div>This cell value is %value%</div>'},
+  style={strokeWidth: 4, strokeColor: 'black', padding: 0.05}, 
+  width=400, 
+  height=400, 
+  margin={top: 30, right: 30, bottom: 30, left: 30}, 
+  xAxis='group', 
+  yAxis='variable', 
+  range=[1, 100], 
+  colorType='Int-4'
+}) => {
   const svgRef = useRef();
 
   const drawSvg = (div) => {
@@ -18,39 +40,28 @@ const Heatmap = ({ width=400, height=400, margin={top: 30, right: 30, bottom: 30
     const x = d3.scaleBand()
                 .range([ 0, width ])
                 .domain(groups)
-                .padding(0.05)
+                .padding(style.padding)
     const y = d3.scaleBand()
                 .range([ height, 0 ])
                 .domain(vars)
-                .padding(0.05)
+                .padding(style.padding)
     return [x, y];
   }
 
-  const handleScale = (groups) => {
+  const handleScale = (range) => {
     const color = d3.scaleSequential()
-                    .interpolator(d3.interpolateOranges)
-                    .domain(groups)
+                    .interpolator(createColorInterpolate(colorType))
+                    .domain(range)
     return color;
   };
 
   const createHeatmap = (div) => {
-    const myGroups = ["A", "B", "C"]
-    const myVars = ["v1", "v2", "v3"]
-    const data = [
-      {group: 'A', variable: 'v1', value: 70},
-      {group: 'A', variable: 'v2', value: 66},
-      {group: 'A', variable: 'v3', value: 10},
-      {group: 'B', variable: 'v1', value: 30},
-      {group: 'B', variable: 'v2', value: 90},
-      {group: 'B', variable: 'v3', value: 100},
-      {group: 'C', variable: 'v1', value: 26},
-      {group: 'C', variable: 'v2', value: 48},
-      {group: 'C', variable: 'v3', value: 88},
-    ]
+    const myGroups = createDomain(data, xAxis);
+    const myVars = createDomain(data, yAxis);
     const svg = drawSvg(div);
     const [x, y] = handleAxis(myGroups, myVars);
-    const color = handleScale([1, 100]);
-    const tooltip = createTooltip('.content')
+    const color = handleScale(range);
+    const Tooltip = createTooltip('.content')
 
     svg.append('g')
         .attr('transform', `translate(0, ${height})`)
@@ -61,33 +72,32 @@ const Heatmap = ({ width=400, height=400, margin={top: 30, right: 30, bottom: 30
         .select('.domain').remove();
 
     svg.selectAll()
-        .data(data, (d) => `${d.group}: ${d.variable}`)
+        .data(data)
         .join('rect')
         .attr('x', (d) => x(d.group))
         .attr('y', (d) => y(d.variable))
-        .attr("rx", 14)
-        .attr("ry", 14)
+        .attr("rx", 4)
+        .attr("ry", 4)
         .attr('width', x.bandwidth())
         .attr('height', y.bandwidth())
         .style('fill', (d) => color(d.value))
-        .style("stroke-width", 4)
+        .style("stroke-width", style.strokeWidth)
         .style("stroke", "none")
         .style("opacity", 0.8)
         .on('mouseover', function() {
-          tooltip.style('opacity', 1);
+          tooltip.show && Tooltip.style('opacity', 1);
 
           d3.select(this)
-            .style('stroke', 'black')
+            .style('stroke', style.strokeColor)
             .style('opacity', 1)
         })
         .on('mousemove', function(event, d) {
-          tooltip.html(`<div>This cell value is ${d.value}</div>`)
-                // .style('display', 'block')
+          tooltip.show && Tooltip.html(parseTooltipText(tooltip.text, d))
                 .style('left', `${event.pageX}px`)
                 .style('top', (event.pageY - 100) + 'px')
         })
         .on('mouseleave', function() {
-          tooltip.style('opacity', 0);
+          tooltip.show && Tooltip.style('opacity', 0);
                 
           d3.select(this)
             .style('stroke', 'none')
