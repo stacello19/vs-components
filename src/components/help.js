@@ -38,3 +38,12 @@ export const parseTooltipText = (text, dataObj) => {
   });
   return newText
 };
+
+export const createTooltip = (className) => {
+  const tooltipDiv = d3.select(className)
+    .append('div')
+    .attr('class', 'tooltip2')
+    .style('position', 'absolute')
+    .style('opacity', 0)
+  return tooltipDiv
+};

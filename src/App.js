@@ -5,6 +5,7 @@ import Pie from './components/pie';
 import Donut from './components/pie/donut';
 import InteractivePie from './components/pie/interactivePie';
 import AreaLine from './components/line/area';
+import Heatmap from './components/heatmap';
 import './App.css';
 
 const data = [{type: 'a', value: 200}, {type:'b', value: 300}, {type:'c', value: 100}, {type: 'a', value: 50}];
@@ -97,6 +98,12 @@ function App() {
         <div>
           <h3>Line Area</h3>
           <AreaLine/>
+        </div>
+      </div>
+      <div className='row-wrapper'>
+        <div>
+          <h3>Heatmap</h3>
+          <Heatmap />
         </div>
       </div>
     </div>
