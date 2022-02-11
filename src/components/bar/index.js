@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import { createDomain, parseTooltipText } from '../help';
 import * as d3 from 'd3';
 
-const Bar = ({ data, domain, width, height, margin, xAxis, yAxis, barType, barColor, text, grid, label, line, info }) => {
+const Bar = ({ data, domain, width, height, margin, xAxis, yAxis, barType, barColor, text, grid, label, line, info, tooltip }) => {
   const svgRef = useRef(null);
 
   const drawSvg = useCallback((div) => {
@@ -78,15 +78,61 @@ const Bar = ({ data, domain, width, height, margin, xAxis, yAxis, barType, barCo
     return tooltipDiv
   },[]);
 
+  const handleLine = useCallback((svg, x, y, d) => {
+    if (barType === 'vertical') {
+      svg.append('line')
+          .attr('class', 'value-line')
+          .attr('x1', 0)
+          .attr('y1', y(d[yAxis]))
+          .attr('x2', width)
+          .attr('y2', y(d[yAxis]))
+    } else if (barType === 'horizontal') {
+      svg.append('line')
+          .attr('class', 'value-line')
+          .attr('y1', 0)
+          .attr('x1', x(d[xAxis]))
+          .attr('y2', height)
+          .attr('x2', x(d[xAxis]))
+    }
+  },[barType, height, width, xAxis, yAxis])
+
+  const handleInfo = useCallback((svg, x, y, d) => {
+    if (barType === 'vertical') {
+      svg.append('text')
+          .attr('class', 'info')
+          .attr('x', x(d[xAxis]) + x.bandwidth() / 2)
+          .attr('y', info.location === 'outside' ? y(d[yAxis]) - 10 : y(d[yAxis]) + 30)
+          .attr('fill', info.color)
+          .attr('text-anchor', 'middle')
+          .text(() => {
+            const value = d[yAxis].toFixed(2);
+            return `${value}%`
+            // return parseTooltipText(info.text, d)
+          })
+    } else if (barType === 'horizontal') {
+      svg.append('text')
+          .attr('class', 'info')
+          .attr('y', y(d[yAxis]) + y.bandwidth() / 2)
+          .attr('x', info.location === 'outside' ? x(d[xAxis]) + 30 : x(d[xAxis]) - 10)
+          .attr('fill', info.color)
+          .attr('text-anchor', 'middle')
+          .text(() => {
+            const value = d[xAxis].toFixed(2);
+            return `${value}%`
+            // return parseTooltipText(info.text, d)
+          })
+    }
+  },[barType, info, xAxis, yAxis])
+
   const createPieGraph = useCallback((div) => {
     const svg = drawSvg(div);
     const [x, y] = handleAxis();
     const Tooltip = createTooltip();
 
     svg.append('g')
+        .attr('class', 'x-grid')
         .attr('transform', `translate(0, ${height})`)
         .call(handleTick('x', x))
-        .attr('class', 'grid')
         .selectAll('text')
           .attr('class', 'x-label')
           .attr('transform', `translate(${text.angle === 'center' ? '0' : '-10'}, 0)rotate(${text.angle === 'center' ? '0' : '-45'})`)
@@ -94,6 +140,7 @@ const Bar = ({ data, domain, width, height, margin, xAxis, yAxis, barType, barCo
           .text((d) => d)
 
     svg.append('g')
+        .attr('class', 'y-grid')
         .call(handleTick('y', y))
         .selectAll('text')
           .attr('class', 'y-label')
@@ -125,36 +172,18 @@ const Bar = ({ data, domain, width, height, margin, xAxis, yAxis, barType, barCo
             .attr(barType === 'vertical' ? 'x' : 'y', barType === 'vertical' ? x(d[xAxis]) - 5 : y(d[yAxis]) - 5)
             .attr(barType === 'vertical' ? 'width' : 'height', barType === 'vertical' ? x.bandwidth() + 10 : y.bandwidth() + 10)
 
-          Tooltip.transition()
-                  .duration(200)
-                  .style('opacity', 1)
-                  .style('left', (event.pageX + 20) + 'px')
-                  .style('top', (event.pageY - 20) + 'px')
-                  .text(parseTooltipText('%SUM(risk_dist_per)% %', d));
+            tooltip.show && Tooltip.html(parseTooltipText(tooltip.text, d))
+                                  .transition()
+                                  .duration(200)
+                                  .style('opacity', 1)
+                                  .style('left', (event.pageX + 20) + 'px')
+                                  .style('top', (event.pageY - 20) + 'px')
 
-          line.show && svg.append('line')
-                          .attr('class', 'value-line')
-                          .attr(barType === 'vertical' ? 'x1' : 'y1', 0)
-                          .attr(barType === 'vertical' ? 'y1' : 'x1', barType === 'vertical' ? y(d[yAxis]) : x(d[xAxis]))
-                          .attr(barType === 'vertical' ? 'x2' : 'y2', barType === 'vertical' ? width : height)
-                          .attr(barType === 'vertical' ? 'y2' : 'x2', barType === 'vertical' ? y(d[yAxis]) : x(d[xAxis]))
-                          .attr('stroke', line.color)
+            info.show && d3.selectAll('.info-value')
+                            .attr('opacity', 0)
 
-          info.show && svg.append('text')
-                          .attr('class', 'info')
-                          .attr(barType === 'vertical' ? 'x' : 'y', barType === 'vertical' ? x(d[xAxis]) + x.bandwidth() / 2 : y(d[yAxis]) + y.bandwidth() / 2)
-                          .attr(barType === 'vertical' ? 'y' : 'x', barType === 'vertical' ? (info.location === 'outside' ? y(d[yAxis]) - 10 : y(d[yAxis]) + 30) : (info.location === 'outside' ? x(d[xAxis]) + 30 : x(d[xAxis]) - 10))
-                          .attr('fill', info.color)
-                          .attr('text-anchor', 'middle')
-                          .text(() => {
-                            if (barType === 'vertical') {
-                              const value = d[yAxis].toFixed(2);
-                              return `${value}%`
-                            } else {
-                              const value = d[xAxis].toFixed(2);
-                              return `${value}%`
-                            }
-                          })
+            line.show && handleLine(svg, x, y, d);
+            info.showHover && handleInfo(svg, x, y, d);
         })
         .on('mouseout', function(event, d) {
           d3.select(this)
@@ -164,15 +193,43 @@ const Bar = ({ data, domain, width, height, margin, xAxis, yAxis, barType, barCo
             .attr(barType === 'vertical' ? 'x' : 'y', (a) => barType === 'vertical' ? x(a[xAxis]) : y(a[yAxis]))
             .attr(barType === 'vertical' ? 'width' : 'height', barType === 'vertical' ? x.bandwidth() : y.bandwidth())
 
-          Tooltip.transition()
-                  .duration(500)
-                  .style('opacity', 0);
+            tooltip.show && Tooltip.transition()
+                                  .duration(500)
+                                  .style('opacity', 0);
+            info.show && d3.selectAll('.info-value')
+                            .attr('opacity', 1)
 
-          line.show && svg.selectAll('.value-line').remove();
-          info.show && svg.selectAll('.info').remove();
+            line.show && svg.selectAll('.value-line').remove();
+            info.showHover && svg.selectAll('.info').remove();
         })
 
-  },[createTooltip, barType, info, line, label, width, xAxis, yAxis, handleTick, drawBar, handleAxis, height, drawSvg, text, margin])
+    const barGroups = svg.selectAll('.info-value')
+                          .data(data)
+                          .enter()
+                          .append('g');
+
+    info.show && barGroups.append('text')
+                          .attr('class', 'info-value')
+                          .attr('y', (d) => {
+                            if (barType === 'horizontal') {
+                              return y(d[yAxis]) + y.bandwidth() / 2
+                            } else {
+                              const len = info.text.length * 5;
+                              return info.location === 'outside' ? y(d[yAxis]) - len : y(d[yAxis]) + 30;
+                            }
+                          })
+                          .attr('x', (d) => {
+                            if (barType === 'horizontal') {
+                              const len = info.text.length * 5;
+                              return info.location === 'outside' ? x(d[xAxis]) + len : x(d[xAxis]) - 10;
+                            } else {
+                              return x(d[xAxis]) + x.bandwidth() / 2;
+                            }
+                          })
+                          .attr('text-anchor', 'middle')
+                          .text((d) => parseTooltipText(info.text, d))
+
+  },[data, handleLine, handleInfo, tooltip, createTooltip, barType, info, line, label, width, xAxis, yAxis, handleTick, drawBar, handleAxis, height, drawSvg, text, margin])
 
   useEffect(() => {
     if (svgRef.current) {

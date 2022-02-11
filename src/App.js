@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Bar from './components/bar';
+import StackBar from './components/bar/stackBar';
 import Pie from './components/pie';
 import Donut from './components/pie/donut';
 import InteractivePie from './components/pie/interactivePie';
+import AreaLine from './components/line/area';
 import './App.css';
 
 const data = [{type: 'a', value: 200}, {type:'b', value: 300}, {type:'c', value: 100}, {type: 'a', value: 50}];
@@ -63,16 +65,38 @@ function App() {
             data={barData}
             domain={['VLR', 'LR', 'MR', 'HR', 'VHR']}
             margin={{top: 100, bottom: 100, right: 80, left: 100}}
-            xAxis={'risk_class'}
-            yAxis={'SUM(risk_dist_per)'}
-            barType={'vertical'}
+            yAxis={'risk_class'}
+            xAxis={'SUM(risk_dist_per)'}
+            barType={'horizontal'}
             barColor={'#FF6633'}
             text={{angle: 'tilted', anchor: 'end' }} // angle: center or tilted , anchor: start&center&end
-            label={{show: true, xLabel: 'SUM(Risk Distribution Perc)', yLabel: 'Risk Class'}}
-            grid={{xLine: false, yLine: true}}
-            line={{show: false, color: 'red'}}
-            info={{show: true, location: 'outside', color: 'black'}}
+            label={{show: true, yLabel: 'SUM(Risk Distribution Perc)', xLabel: 'Risk Class'}}
+            grid={{xLine: true, yLine: false}}
+            line={{show: true }}
+            info={{
+              show: true, 
+              showHover: true, 
+              location: 'outside', 
+              text: `value?`, 
+              hoverText: '%SUM(risk_dist_per)% %'
+            }}
+            tooltip={{show: false, text: `
+              <div>
+                <div>%SUM(risk_dist_per)% %</div>
+                <div class='tooltip-line'></div>
+                <div>This is %risk_class% class</div>
+              </div>
+              `
+            }}
           />
+        </div>
+        <div>
+          <h3>Stack Bar</h3>
+          <StackBar />
+        </div>
+        <div>
+          <h3>Line Area</h3>
+          <AreaLine/>
         </div>
       </div>
     </div>

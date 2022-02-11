@@ -67,10 +67,37 @@ text.x-label {
 	fill: teal;
 	font-weight: 500;
 }
-.grid path {
-	stroke-width: none !important;
+
+.x-grid .domain {
+	stroke: none !important;
 }
-.tick line {
-	stroke: red;
+.x-grid .tick line {
+	stroke: teal;
 	stroke-opacity: 0.3;
+}
+
+.y-grid .domain {
+	stroke: none !important;
+}
+.y-grid .tick line {
+	stroke: teal;
+	stroke-opacity: 0.3;
+}
+
+line.value-line {
+	stroke: #fed966;
+	stroke-width: 3;
+	stroke-dasharray: 3 6;
+}
+
+.tooltip-line {
+	border: 1px solid whitesmoke;
+	height: 100%;
+	width: 100%;
+	margin: 0.5rem 0;
+}
+
+.info-value {
+	font-size: 16px;
+	fill: black;
 }
