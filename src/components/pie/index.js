@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import { createDomain, createColorPalette, parseTooltipText } from '../help';
 import * as d3 from 'd3';
 
-const Pie = ({ data, width, height, dataKey, value, colorPalette, colorType, margin, style, text, arc, tooltip, donut }) => {
+const Pie = ({ data, width, height, dataKey, value, colorPalette, colorType, margin, text, arc, tooltip, donut }) => {
   const svgRef = useRef(null);
 
   const drawSvg = useCallback((div) => {
