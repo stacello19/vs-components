@@ -1,0 +1,55 @@
+.chart-box {
+	padding: 1rem;
+	box-shadow: 0px 9.03012px 27.0904px rgba(176, 190, 197, 0.21),
+		0px 3.38629px 5.64383px rgba(176, 190, 197, 0.15);
+	border-radius: 10px;
+}
+
+.chart-label {
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 27px;
+	color: #263238;
+	margin: 1rem 0 0 1rem;
+}
+
+line.value-line {
+	stroke: #fed966;
+	stroke-width: 3;
+	stroke-dasharray: 3 6;
+}
+
+text.label {
+	font-size: 16px;
+	fill: gray;
+	font-weight: 500;
+}
+
+text.yLabel {
+	font-size: 16px;
+	fill: gray;
+	font-weight: 500;
+	margin: 1rem;
+}
+
+text.xLabel {
+	font-size: 16px;
+	fill: gray;
+	font-weight: 500;
+	margin: 1rem;
+}
+
+.infoValue {
+	font-size: 16px;
+	fill: black;
+}
+
+.tooltip {
+	background: skyblue;
+	border-radius: 20px;
+	padding: 1.5rem;
+	color: white;
+	font-family: serif;
+	font-weight: 700;
+	font-size: 16px;
+}

@@ -35,6 +35,7 @@ export const parseTooltipText = (text, dataObj, format) => {
   const newText = text.replace(/%.*?%/g, (match) => {
     const str = match.replace(/[^()_a-zA-Z0-9-]+/g, '');
     const value = dataObj[str]
+    console.log('>>>', format, value)
     if (format === 'decimal') {
       return d3.format('.2f')(value);
     } else if (format === 'percentage') {
